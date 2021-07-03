@@ -7,13 +7,14 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
-    "autoprefixer": "^10.2.6",
-    "postcss": "^8.3.5",
+    "autoprefixer": "^9",
+    "postcss": "^7",
+    "postcss-loader": "^6.1.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.3",
     "stylelint-config-standard": "^22.0.0",
-    "tailwindcss": "^2.2.4",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
@@ -26,7 +27,14 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "require-jsdoc": 0,
+      "indent": [
+        "error",
+        4
+      ]
+    }
   },
   "browserslist": {
     "production": [
@@ -42,7 +50,6 @@
   },
   "devDependencies": {
     "eslint": "^7.29.0",
-    "eslint-config-google": "^0.14.0",
     "eslint-plugin-react": "^7.24.0"
   }
 }
