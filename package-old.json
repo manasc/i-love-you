@@ -9,7 +9,7 @@
     "@testing-library/user-event": "^12.1.10",
     "autoprefixer": "^9",
     "postcss": "^7",
-    "postcss-loader": "^6.1.1",
+    "postcss-loader": "^6.1.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.1",

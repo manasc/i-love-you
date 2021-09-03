@@ -2,100 +2,105 @@ import React from "react";
 import daniela from "./images/daniela.png";
 import manas from "./images/manas.png";
 import heart from "./images/heart.png";
-import plane from "./images/airplane.png";
 
-import { Ping } from "./components/Ping"
-import { DigitBox } from "./components/DigitBox"
+import { Ping } from "./components/Ping";
+import {
+    BrowserRouter as Router,
+    Route,
+    Switch,
+    useParams,
+} from "react-router-dom";
 
-const App = () => {
-    const [showTogether, setShowTogether] = React.useState(true);
-    const [showMessage, setShowMessage] = React.useState(false);
-    const [difference, setDifference] = React.useState(new Date());
+const colorsArr = [
+    "blueGray",
+    "coolGray",
+    "gray",
+    "trueGray",
+    "warmGray",
+    "red",
+    "orange",
+    "amber",
+    "yellow",
+    "lime",
+    "green",
+    "emerald",
+    "teal",
+    "cyan",
+    "sky",
+    "blue",
+    "indigo",
+    "violet",
+    "purple",
+    "fuchsia",
+    "pink",
+    "rose",
+];
 
-    const [currentDate, setCurrentDate] = React.useState({
-        seconds: 0,
-        minutes: 0,
-        hours: 0,
-        days: 0,
-    });
+// git remote add origin https://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@github.com/manasc/dnm.git
 
-    const displayDate = () => {
-        const future = new Date(2021, 2, 24, 12); // month is index
-        const current = new Date();
+const getBackgroundColor = (paramColor = "gray", shade = 900) => {
+    switch (paramColor) {
+    case "transparent":
+    case "white":
+    case "black":
+        return `bg-${paramColor}`;
+    default:
+        return `bg-${paramColor}-${shade}`;
+    }
+};
 
-        const diff = new Date(future - current);
-        setDifference(diff);
-
-        const seconds = Math.floor((diff / 1000) % 60);
-        const minutes = Math.floor((diff / 1000 / 60) % 60);
-        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-
-        setCurrentDate({ seconds, minutes, hours, days });
-    };
-
-    setTimeout(() => {
-        displayDate();
-    }, 1000);
-
-    React.useEffect(() => {
-        displayDate();
-    }, []);
+const Page = ({ embed }) => {
+    let { color, shade } = useParams();
+    const bgColor = getBackgroundColor(color, shade);
+    const boxPadding = embed ? "" : "pb-10";
 
     return (
-        <div className="h-screen w-screen flex flex-col items-center justify-center pb-10">
-            {showTogether ? (
-                <div className="relative mb-1 flex">
-                    <div className="px-1 z-40">
-                        <img alt="daniela" src={daniela} width={40} height={"auto"} />
-                    </div>
-                    <div className="px-1 relative flex items-center justify-center z-0">
-                        <Ping size={9} opacity={75} />
-                        <Ping size={7} opacity={50} />
-                        <Ping size={5} opacity={50} />
-                        <div className="relative transform translate-y-px">
-                            <img src={heart} alt="heart" width={20} height={"auto"} />
-                        </div>
-                    </div>
-                    <div className="px-1 z-40">
-                        <img alt="manas" src={manas} width={40} height={"auto"} />
+        <div
+            className={`h-screen w-screen flex flex-col items-center justify-center ${boxPadding} ${bgColor}`}
+        >
+            <div className="relative mb-1 flex">
+                <div className="px-1 z-40">
+                    <img
+                        alt="daniela"
+                        src={daniela}
+                        width={40}
+                        height={"auto"}
+                    />
+                </div>
+                <div className="px-1 relative flex items-center justify-center bg z-0">
+                    <Ping size={9} opacity={75} />
+                    <Ping size={7} opacity={50} />
+                    <Ping size={5} opacity={50} />
+                    <div className="relative transform translate-y-px">
+                        <img
+                            src={heart}
+                            alt="heart"
+                            width={20}
+                            height={"auto"}
+                        />
                     </div>
                 </div>
-            ) : (
-                <>
-                    <div className="text-2xl relative flex items-center justify-center mb-10">
-                        <Ping size={16} opacity={75} />
-                        <Ping size={11} opacity={75} />
-                        <Ping size={9} opacity={75} />
-                        <Ping size={7} opacity={50} />
-                        <Ping size={5} opacity={50} />
-                        <div className="relative transform translate-y-px">
-                            <img src={heart} alt="heart" width={20} height={"auto"} />
-                        </div>
-                    </div>
-                    <div className="text-white">{difference.getTime()}</div>
-                    <div className="text-white text-4xl">
-                        <div className="flex items-center">
-                            <DigitBox number={currentDate.days} label="d" />
-                            <DigitBox number={currentDate.hours} label="h" />
-                            <DigitBox number={currentDate.minutes} label="m" />
-                            <DigitBox number={currentDate.seconds} label="s" />
-                        </div>
-                    </div>
-                    <div className="h-10 py-10 text-white text-sm">
-                        {showMessage && (
-                            <div className="flex items-center">
-                                <div className="relative mr-2">
-                                    <img src={plane} alt="plane" width={20} height={"auto"} />
-                                </div>
-                                <span>On my way, cutie!</span>
-                            </div>
-                        )}
-                    </div>
-                </>
-            )}
+                <div className="px-1 z-40">
+                    <img alt="manas" src={manas} width={40} height={"auto"} />
+                </div>
+            </div>
         </div>
     );
-}
+};
+
+const App = () => {
+    return (
+        <Router>
+            <Switch>
+                <Route exact path="/">
+                    <Page />
+                </Route>
+                <Route path="/embed/:color?/:shade?">
+                    <Page embed={true} />
+                </Route>
+            </Switch>
+        </Router>
+    );
+};
 
 export default App;
