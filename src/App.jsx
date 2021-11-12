@@ -119,7 +119,7 @@ const Page = ({ embed }) => {
         >
             <div className="relative mb-1 flex">
                 <div
-                    className="p-5 cursor-pointer"
+                    className="px-5 cursor-pointer"
                     data-tip={daniMessage}
                     onMouseLeave={changeDaniMessage}
                 >
@@ -146,7 +146,7 @@ const Page = ({ embed }) => {
                     </div>
                 </div>
                 <div
-                    className="p-5 cursor-pointer"
+                    className="px-5 cursor-pointer"
                     data-tip={manasMessage}
                     onMouseLeave={changeManasMessage}
                 >
@@ -160,6 +160,16 @@ const Page = ({ embed }) => {
                     />
                 </div>
             </div>
+            {!embed && (
+                <div className="font-serif pt-4 opacity-75 text-sm text-center">
+                    {/*                     
+                    Besame y sonreiré.
+                    <br />
+                    Abrazame y te consentiré.
+                    <br /> */}
+                    Hazme un clic y te daré un poquito amor.
+                </div>
+            )}
         </div>
     );
 };
@@ -187,6 +197,9 @@ const App = () => (
             border={true}
             padding="8px 16px"
             offset={{ top: 20 }}
+            effect="solid"
+            clickable={true}
+            className="font-serif"
             // delayHide={3000}
         />
     </div>
