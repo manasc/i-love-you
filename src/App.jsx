@@ -55,7 +55,8 @@ const manasMessages = [
 ];
 
 const daniMessages = [
-    "Mi amooooor", 
+    "Mi amooooor",
+"Mi novio lindo!", 
     "My cuuuutie", 
     ...commonMessages
 ];
