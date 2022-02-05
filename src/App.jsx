@@ -54,7 +54,11 @@ const manasMessages = [
     ...commonMessages,
 ];
 
-const daniMessages = ["Mi amooooor", "My cuuuutie", ...commonMessages];
+const daniMessages = [
+    "Mi amooooor", 
+    "My cuuuutie", 
+    ...commonMessages
+];
 
 const getRandomInt = () => {
     let max;
