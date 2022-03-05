@@ -28,7 +28,7 @@
         "test": "craco test",
         "eject": "react-scripts eject"
     },
-    "homepage": "https://manasc.github.io/dnm",
+    "homepage": "https://dnm.manasc.com",
     "browserslist": {
         "production": [
             ">0.2%",
