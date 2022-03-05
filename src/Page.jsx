@@ -129,11 +129,6 @@ export const Page = ({ embed }) => {
                 </div>
                 {!embed && (
                     <div className="font-serif pt-4 opacity-75 text-sm text-center">
-                        {/*
-                    Besame y sonreiré.
-                    <br />
-                    Abrazame y te consentiré.
-                    <br /> */}
                         Hazme un clic y te daré un poquito amor.
                     </div>
                 )}

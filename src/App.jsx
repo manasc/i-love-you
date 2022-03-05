@@ -73,7 +73,7 @@ const App = () => (
                 </Route>
             </Routes>
         </Router>
-        {/* <ReactTooltip
+        <ReactTooltip
             type="light"
             border={true}
             padding="8px 16px"
@@ -81,7 +81,7 @@ const App = () => (
             effect="solid"
             clickable={true}
             className="font-serif max-w-2xs"
-        /> */}
+        />
     </div>
 );
 
