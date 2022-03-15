@@ -4,7 +4,8 @@
 	"private": true,
 	"scripts": {
 		"predeploy": "next build && next export -o build",
-		"deploy": "gh-pages -d build -r https://github.com/manasc/test-static-site -t true",
+		"deploy": "gh-pages -d build -t true",
+		"deploy:dev": "gh-pages -d build -r https://github.com/manasc/test-static-site -t true",
 		"postdeploy": "rm -rf build",
 		"dev": "next dev",
 		"build": "next build",

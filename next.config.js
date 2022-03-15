@@ -7,8 +7,8 @@ const nextConfig = {
 	images: {
 		loader: "custom",
 	},
-	basePath: isProd ? "/test-static-site" : "",
-	assetPath: isProd ? "/test-static-site" : "",
+	// basePath: isProd ? "/test-static-site" : "",
+	// assetPath: isProd ? "/test-static-site" : "",
 };
 
 module.exports = nextConfig;
