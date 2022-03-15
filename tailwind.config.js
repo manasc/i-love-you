@@ -1,5 +1,10 @@
 module.exports = {
 	content: ["./src/**/*.{js,ts,jsx,tsx}"],
+	safelist: [
+		{
+			pattern: /bg-(\w+)-(\w+)/,
+		},
+	],
 	theme: {
 		extend: {
 			keyframes: {
