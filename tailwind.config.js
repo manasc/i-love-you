@@ -10,8 +10,6 @@ module.exports = {
 			keyframes: {
 				"ping-heart": {
 					"75%, 100%": {
-						// height: "60px",
-						// width: "60px",
 						transform: "scale(15)",
 						opacity: 0,
 					},

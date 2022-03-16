@@ -40,19 +40,16 @@ export const useContextProvider = () => useContext(GlobalContext);
 
 export default function GlobalContextProvider({ children }) {
 	const router = useRouter();
+	const { color, shade } = router.query;
+	const embed = Boolean(
+		"embed" in router.query &&
+			(router.query.embed !== "false" || router.query.embed !== false)
+	);
 
-	// const color = (router.query.params && router.query.params[0]) || undefined;
-	// const shade = (router.query.params && router.query.params[1]) || undefined;
-	// const embed = Boolean(router.query.params && router.query.params[2]);
+	console.log(router.query);
 
-	const [params, setParams] = useState({
-		color: undefined,
-		shade: undefined,
-		embed: undefined,
-	});
-
-	const bgColor = getBackgroundColor(params.color, params.shade);
-	const boxPadding = params.embed ? "" : "pb-10";
+	const bgColor = getBackgroundColor(color, shade);
+	const boxPadding = Boolean(embed) ? "" : "pb-10";
 
 	const [daniMessages, setDaniMessages] = React.useState(["Hello, Hello"]);
 	const [manasMessages, setManasMessages] = React.useState(["Hello, Hello"]);
@@ -89,20 +86,6 @@ export default function GlobalContextProvider({ children }) {
 			setManasMessage("Ya te la di!");
 		}
 	};
-
-	useEffect(() => {
-		router.isReady &&
-			router.query.params &&
-			setParams({
-				color:
-					(router.query.params && router.query.params[0]) ||
-					undefined,
-				shade:
-					(router.query.params && router.query.params[1]) ||
-					undefined,
-				embed: Boolean(router.query.params && router.query.params[2]),
-			});
-	}, [router.isReady]);
 
 	useEffect(() => {
 		client
@@ -142,7 +125,7 @@ export default function GlobalContextProvider({ children }) {
 			value={{
 				boxPadding,
 				bgColor,
-				embed: undefined,
+				embed: Boolean(embed),
 				daniMessage,
 				changeDaniMessage,
 				manasMessage,
