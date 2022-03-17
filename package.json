@@ -13,11 +13,7 @@
 		"lint": "next lint"
 	},
 	"dependencies": {
-		"@chakra-ui/react": "^1.8.6",
-		"@emotion/react": "^11.8.2",
-		"@emotion/styled": "^11.8.1",
 		"contentful": "^9.1.13",
-		"framer-motion": "^6.2.8",
 		"gh-pages": "^3.2.3",
 		"next": "12.1.0",
 		"prettier": "^2.5.1",

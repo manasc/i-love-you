@@ -1,7 +1,6 @@
-import SpotifyList from "components/SpotifyList";
 import SpotifyEmbed from "components/SpotifyEmbed";
+import SpotifyList from "components/SpotifyList";
 import DefaultLayout from "layouts/DefaultLayout";
-import { useContextProvider } from "providers/GlobalContextProvider";
 import Link from "next/link";
 
 export default function HomePage() {

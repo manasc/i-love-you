@@ -60,6 +60,7 @@ export default function HomePage() {
 									A little letter to you, mi amor
 									<Image
 										loader={imageLoader}
+										unoptimized
 										alt="link to letter"
 										src="/images/arrow-right.svg"
 										width={18}

@@ -1,7 +1,10 @@
-import React from "react";
 import Head from "next/head";
-import ReactTooltip from "react-tooltip";
 import { useContextProvider } from "providers/GlobalContextProvider";
+import React from "react";
+import tailwindColors from "tailwindcss/colors";
+import Script from "next/script";
+
+const colors = Object.keys(tailwindColors);
 
 export default function DefaultLayout({ children, padded, title = "D&M" }) {
 	const { bgColor } = useContextProvider();

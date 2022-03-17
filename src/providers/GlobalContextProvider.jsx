@@ -46,7 +46,7 @@ export default function GlobalContextProvider({ children }) {
 			(router.query.embed !== "false" || router.query.embed !== false)
 	);
 
-	console.log(router.query);
+	// console.log(router.query);
 
 	const bgColor = getBackgroundColor(color, shade);
 	const boxPadding = Boolean(embed) ? "" : "pb-10";

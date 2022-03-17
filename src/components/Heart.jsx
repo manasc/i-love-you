@@ -7,16 +7,14 @@ export default function Heart({ _, index, imageLoader }) {
 			{[1, 2].map((_, index) => (
 				<Ping key={`ping-${index}`} index={index} />
 			))}
-			<div className="relative transform flex items-center translate-y-px">
-				<Image
-					loader={imageLoader}
-					unoptimized
-					alt="heart"
-					src="/images/heart.png"
-					width={20}
-					height={20}
-				/>
-			</div>
+			<Image
+				loader={imageLoader}
+				unoptimized
+				alt="heart"
+				src="/images/heart.png"
+				width={20}
+				height={20}
+			/>
 		</div>
 	);
 }
