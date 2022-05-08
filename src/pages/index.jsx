@@ -1,10 +1,11 @@
 import DefaultLayout from "layouts/DefaultLayout";
 import Heart from "components/Heart";
+import MessageBubble from "components/MessageBubble";
 import Image from "next/image";
 import Link from "next/Link";
 import { useContextProvider } from "providers/GlobalContextProvider";
-import ReactTooltip from "react-tooltip";
 import imageLoader from "utils/imageLoader";
+import { useState } from "react";
 
 export default function HomePage() {
 	const {
@@ -15,14 +16,32 @@ export default function HomePage() {
 		changeManasMessage,
 	} = useContextProvider();
 
+	const [showDaniMessage, setShowDaniMessage] = useState(false);
+	const [showManasMessage, setShowManasMessage] = useState(false);
+
 	return (
 		<DefaultLayout title="D&M">
 			<div className="w-screen min-h-screen flex flex-col items-center justify-center">
+				{showDaniMessage && (
+					<MessageBubble orientation="left">
+						{daniMessage}
+					</MessageBubble>
+				)}
+				{showManasMessage && (
+					<MessageBubble orientation="right">
+						{manasMessage}
+					</MessageBubble>
+				)}
 				<div className="relative mb-1 flex">
 					<div
-						className="px-5 cursor-pointer flex items-center"
-						data-tip={daniMessage}
-						onMouseLeave={changeDaniMessage}
+						className="px-5 cursor-pointer flex items-center justify-center"
+						onMouseEnter={() => {
+							setShowDaniMessage(true);
+						}}
+						onMouseLeave={() => {
+							setShowDaniMessage(false);
+							changeDaniMessage();
+						}}
 					>
 						<Image
 							loader={imageLoader}
@@ -35,9 +54,14 @@ export default function HomePage() {
 					</div>
 					<Heart />
 					<div
-						className="px-5 cursor-pointer flex items-center"
-						data-tip={manasMessage}
-						onMouseLeave={changeManasMessage}
+						className="px-5 cursor-pointer flex items-center justify-center"
+						onMouseEnter={() => {
+							setShowManasMessage(true);
+						}}
+						onMouseLeave={() => {
+							setShowManasMessage(false);
+							changeManasMessage();
+						}}
 					>
 						<Image
 							loader={imageLoader}
@@ -71,15 +95,6 @@ export default function HomePage() {
 						</p>
 					</div>
 				)}
-				<ReactTooltip
-					type="light"
-					border={true}
-					padding="8px 16px"
-					offset={{ top: 20 }}
-					effect="solid"
-					clickable={true}
-					className="font-serif max-w-2xs"
-				/>
 			</div>
 		</DefaultLayout>
 	);
