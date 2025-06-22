@@ -4,7 +4,7 @@ import DefaultLayout from "../layouts/DefaultLayout";
 
 export default function HomePage() {
 	return (
-		<DefaultLayout title="D&M | A Little Letter for You" padded>
+		<DefaultLayout title="A Little Letter for You" padded>
 			<div className="max-w-2xl mx-auto">
 				<h1 className="text-2xl">Goodbye, for now ~</h1>
 				<hr className="border-neutral-900 opacity-20" />

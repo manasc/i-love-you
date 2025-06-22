@@ -3,6 +3,7 @@ import React from "react";
 
 type Props = {
     children?: React.ReactNode;
+    bgColor?: string;
     padded?: boolean;
     title: string;
 }
@@ -16,7 +17,7 @@ export default function DefaultLayout(props: Props) {
                     name="viewport"
                     content="width=device-width,initial-scale=1"
                 />
-                <meta name="description" content={"D&M"} />
+                <meta name="description" content={"I love you."} />
                 <link rel="icon" href="favicon.ico" />
                 <link
                     rel="apple-touch-icon"
@@ -44,11 +45,14 @@ export default function DefaultLayout(props: Props) {
                 <meta name="msapplication-TileColor" content="#da532c" />
                 <meta name="theme-color" content="#ffffff" />
                 <link rel="manifest" href="manifest.json" />
-                <title>{props.title ?? "D&M"}</title>
+                <title>{props.title ?? "I love you."}</title>
             </Head>
             <main
-                className={`min-h-screen min-w-screen font-serif bg-rose-200 ${props.padded && "py-20 px-6"
-                    }`}
+                className={[
+                    "min-h-screen min-w-screen font-serif",
+                    props.bgColor ?? "bg-rose-200",
+                    props.padded && "py-20 px-6"
+                ].join(" ")}
             >
                 {props.children}
             </main>

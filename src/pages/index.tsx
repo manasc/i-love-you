@@ -1,110 +1,104 @@
+import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import MessageBubble from "../components/MessageBubble";
-import DefaultLayout from "../layouts/DefaultLayout";
-import Image from "next/image";
-import {Chance} from "chance";
-import { useState } from "react";
-import imageLoader from "../utils/imageLoader";
+import { PersonContainer } from "../components/PersonContainer";
 import quotesInfo from "../data/quotes.json";
+import DefaultLayout from "../layouts/DefaultLayout";
+import { Timer } from "../utils/Timer";
+import { getRandomInt } from "../utils/getRandomInt";
+import { PersonButton } from "../components/PersonButton";
 
-const halfMark = quotesInfo.quotes.length / 2;
-const daniMessages = quotesInfo.quotes.slice(0, halfMark);
-const manasMessages = quotesInfo.quotes.slice(halfMark);
+const { quotes } = quotesInfo;
+const timer = new Timer(5000);
 
-const PersonContainer: React.FC<React.ComponentPropsWithRef<'span'> & {
-    size?: string;
-}> = (props) => (
-    <span
-        {...props}
-        className={[
-            "relative inline-flex items-center justify-center",
-            props.className ?? "",
-            props.size ?? "text-4xl "
-        ].join(" ")}
-    >
-        {props.children}
-    </span>
-);
-
-const chance = new Chance();
-
-const getRandomInt = (person: "dani" | "manas") => {
-    const max = person === "dani" ? daniMessages.length : manasMessages.length;
-    return chance.integer({ min: 0, max: max - 1 });
-};
+const getSettings = (params: ReadonlyURLSearchParams) => ({
+    bg: {
+        color: params.get("bg.color") ?? "bg-rose-200",
+    },
+    text: params.get("text") ?? "Here's a little message for you. Click the person to see it!",
+    p1: {
+        display: params.get("p1.display") ?? "👨🏽",
+    },
+    p2: {
+        display: params.get("p2.display") ?? "👩🏽",
+    },
+    connector: {
+        display: params.get("connector.display") ?? "❤️‍🔥",
+    }
+})
 
 export default function HomePage() {
-    const [manasIndex, setManasIndex] = useState<number>(0);
-    const [daniIndex, setDaniIndex] = useState<number>(0);
+    const [messageIndex, setMessageIndex] = useState<number>(0);
+    const [showBubble, setShowBubble] = useState<1 | 2 | null>(null);
+    const params = useSearchParams();
 
-    const changeManasMessage = () => {
-        setManasIndex(getRandomInt("manas"));
-    };
+    const bubbleOrientation = showBubble === 1 ? "left" : "right";
+    const settings = getSettings(params);
 
-    const changeDaniMessage = () => {
-        setDaniIndex(getRandomInt("dani"));
-    };
+    const handleClick = (index: 1 | 2) => {
+        timer.reset();
 
-    const [showDaniMessage, setShowDaniMessage] = useState(false);
-    const [showManasMessage, setShowManasMessage] = useState(false);
+        setMessageIndex(getRandomInt());
+        setShowBubble(index);
+
+        timer.start(() => {
+            setShowBubble(null);
+        });
+    }
 
     return (
-        <DefaultLayout title="D&M">
-            <div className="w-screen min-h-screen flex flex-col items-center justify-center">
-                {showDaniMessage && (
-                    <MessageBubble orientation="left">
-                        {daniMessages[daniIndex]}
-                    </MessageBubble>
-                )}
-                {showManasMessage && (
-                    <MessageBubble orientation="right">
-                        {manasMessages[manasIndex]}
-                    </MessageBubble>
-                )}
-                <div className="relative mb-1 flex gap-3 items-center justify-center">
-                    <button
-                        className="px-5 cursor-pointer flex items-center justify-center"
-                        onClick={() => {
-                            changeDaniMessage();
-                            setShowDaniMessage(true);
-                        }}
+        <DefaultLayout bgColor={settings.bg.color} title={"I love you."}>
+            <div className="w-screen min-h-screen relative flex items-center">
+                <div className="relative w-full">
+                    <MessageBubble
+                        key={quotes[messageIndex]}
+                        isActive={!!showBubble}
+                        orientation={bubbleOrientation}
+                        timeout={timer.delay}
                     >
-                        <PersonContainer>
-                            {'💃🏻'}
+                        {quotes[messageIndex]}
+                    </MessageBubble>
+                    <div className="relative flex gap-1 items-center justify-center">
+                        <PersonButton className="z-10" onClick={() => handleClick(1)}>
+                            <PersonContainer>
+                                {settings.p1.display}
+                            </PersonContainer>
+                        </PersonButton>
+                        <PersonContainer className="z-0" size="text-3xl">
+                            <span className={[
+                                "h-15 aspect-square rounded-full absolute",
+                                "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
+                                "bg-radial from-pink-400/70 via-transparent",
+                                "animate-ping"
+                            ].join(" ")}></span>
+                            <span className="relative">{settings.connector.display}</span>
                         </PersonContainer>
-                    </button>
-                    <PersonContainer size="text-3xl">
-                        {'❤️'}
-                    </PersonContainer>
-                    <button
-                        className="px-5 cursor-pointer flex items-center justify-center"
-                        onClick={() => {
-                            changeManasMessage();
-                            setShowManasMessage(true);
-                        }}
-                    >
-                        <PersonContainer>
-                            {'🕺'}
-                        </PersonContainer>
-                    </button>
-                </div>
-                {/* TODO: embed option */}
-                <div className="pt-4 opacity-75 text-sm text-center">
-                    <p className="mb-4">
-                        {"Hazme un clic y te daré un poquito amor."}
-                    </p>
-                    <p>
-                        <a href="/a-little-letter" className="hover:underline flex items-center text-xs justify-center">
-                            A little letter to you, mi amor
-                            <Image
-                                loader={imageLoader}
-                                unoptimized
-                                alt="link to letter"
-                                src="/images/arrow-right.svg"
-                                width={18}
-                                height={18}
-                            />
-                        </a>
-                    </p>
+                        <PersonButton className="z-10" onClick={() => handleClick(2)}>
+                            <PersonContainer>
+                                {settings.p2.display}
+                            </PersonContainer>
+                        </PersonButton>
+                    </div>
+                    {/* TODO: embed option */}
+                    <div className="p-2 mb-8 text-center">{settings.text}</div>
+                    <div className="opacity-75 flex-col place-content-center place-items-center">
+                        <hr className="w-5 border-slate-900 opacity-40" />
+                        <hr className="h-14 border-l border-dotted border-slate-900 opacity-40" />
+                        <div className={[
+                            "relative",
+                            "text-xs italic opacity-70 duration-150 hover:opacity-100",
+                            "inline-flex items-center justify-center"
+                        ].join(" ")}>
+                            <span className="absolute left-0 -translate-x-full pr-1 text-nowrap">{"Made with"}</span>
+                            <span className="not-italic">{" ❤️ "}</span>
+                            <span className="absolute right-0 translate-x-full pl-1 text-nowrap">
+                                {"by "}
+                                <a href={"https://crealgo.com"} className="hover:underline not-italic">
+                                    {"Crealgo"}
+                                </a>
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </DefaultLayout>
