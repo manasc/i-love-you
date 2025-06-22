@@ -1,0 +1,12 @@
+services:
+  app:
+    image: node:22-alpine
+    ports:
+      - 3000
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    working_dir: /usr/src/app
+    command: npm start
+volumes:
+  dependencies:

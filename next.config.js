@@ -4,10 +4,10 @@ const isProd = process.env.NODE_ENV === "production";
 
 const nextConfig = {
 	reactStrictMode: true,
-	images: {
-		loader: "custom",
-	},
-	// basePath: isProd ? "/test-static-site" : "",
+	// images: {
+	// 	loader: "custom",
+	// },
+	// basePath: isProd ? "/i-love-you" : "",
 	// assetPath: isProd ? "/test-static-site" : "",
 };
 

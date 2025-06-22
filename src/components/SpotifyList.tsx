@@ -1,4 +1,4 @@
-import SpotifyEmbed from "components/SpotifyEmbed";
+import SpotifyEmbed from "../components/SpotifyEmbed";
 
 export default function SpotifyList({ songs }) {
 	return (

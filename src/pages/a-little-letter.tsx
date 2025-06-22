@@ -1,7 +1,6 @@
-import SpotifyEmbed from "components/SpotifyEmbed";
-import SpotifyList from "components/SpotifyList";
-import DefaultLayout from "layouts/DefaultLayout";
-import Link from "next/link";
+import SpotifyEmbed from "../components/SpotifyEmbed";
+import SpotifyList from "../components/SpotifyList";
+import DefaultLayout from "../layouts/DefaultLayout";
 
 export default function HomePage() {
 	return (
@@ -75,11 +74,9 @@ export default function HomePage() {
 				<p>Tu morenito 💃🏻🕺🏽</p>
 
 				<div id="songs" className="mt-6">
-					<Link passHref href="#songs">
-						<h3 className="text-xl" id="songs">
-							A little bit of cheese for you ~
-						</h3>
-					</Link>
+					<a href="#songs" className="text-xl block" id="songs">
+						A little bit of cheese for you ~
+					</a>
 					<hr className="border-neutral-900 opacity-20 mb-1" />
 					<small className="block mb-3 italic">
 						You&apos;ll need to login into Spotify to hear the whole
