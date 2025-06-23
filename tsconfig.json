@@ -9,18 +9,16 @@
     "lib": [
       "ESNext",
       "DOM",
-      "DOM.Iterable",
-      "ScriptHost"
+      "DOM.Iterable"
     ],
     "experimentalDecorators": true,
-    "maxNodeModuleJsDepth": 10,
     "esModuleInterop": true,
     "importHelpers": true,
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "noEmit": true,
     "noImplicitAny": false,
-    "strictNullChecks": true,
+    "strictNullChecks": false,
     "target": "ESNext",
     "jsx": "preserve",
     "skipLibCheck": true,
