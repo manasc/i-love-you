@@ -33,7 +33,7 @@ export const PersonButton: React.FC<Props> = (props) => {
                         "bg-white border border-slate-400",
                         "aspect-square"
                     ].join(" ")}
-                    defaultValue={props.value}
+                    value={props.value}
                 >
                     <option value="👨🏽">👨🏽</option>
                     <option value="👩🏽">👩🏽</option>
@@ -44,13 +44,14 @@ export const PersonButton: React.FC<Props> = (props) => {
                     <option value="👴🏽">👴🏽</option>
                     <option value="👨‍🦱">👨‍🦱</option>
                 </select>
-            </label >
+            </label>
         );
     }
 
 
     return (
         <button
+            type="button"
             onClick={props.onButtonClick}
             className={[
                 ...sharedClasses,

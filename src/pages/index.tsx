@@ -1,6 +1,6 @@
 import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import MessageBubble from "../components/MessageBubble";
 import { PersonButton } from "../components/PersonButton";
 import { PersonContainer } from "../components/PersonContainer";
@@ -12,32 +12,30 @@ import { getRandomInt } from "../utils/getRandomInt";
 const { quotes } = quotesInfo;
 const timer = new Timer(5000);
 
-const getSettings = (params: ReadonlyURLSearchParams) => ({
-    bg: {
-        color: params.get("bg.color") ?? "bg-rose-200",
-    },
-    text: params.get("text") ?? "Here's a little message for you. Click the person to see it!",
-    p1: {
-        display: params.get("p1.display") ?? "👨🏽",
-    },
-    p2: {
-        display: params.get("p2.display") ?? "👩🏽",
-    },
-    connector: {
-        display: params.get("connector.display") ?? "❤️",
-    }
-})
+const defaultSettings = {
+    "bg.color": "bg-rose-200",
+    "text": "Here's a little message for you. Click the person to see it!",
+    "p1.display": "👨🏽",
+    "p2.display": "👩🏽",
+    "connector.display": "❤️",
+}
 
 export default function HomePage() {
+    const params = useSearchParams();
+    const router = useRouter();
+
     const [messageIndex, setMessageIndex] = useState<number>(0);
     const [showBubble, setShowBubble] = useState<1 | 2 | null>(null);
     const [isEditting, setIsEditting] = useState<boolean>(false);
 
-    const params = useSearchParams();
-    const router = useRouter();
+    const settings = useMemo(() => ({
+        ...defaultSettings,
+        ...Object.fromEntries(params.entries())
+    }), [params])
+
+
 
     const bubbleOrientation = showBubble === 1 ? "left" : "right";
-    const settings = getSettings(params);
 
     const handleClick = (index: 1 | 2) => {
         timer.reset();
@@ -51,8 +49,50 @@ export default function HomePage() {
     }
 
     return (
-        <DefaultLayout bgColor={settings.bg.color} title={"I love you."}>
+        <DefaultLayout bgColor={settings['bg.color']} title={"I love you."}>
             <div className="w-screen min-h-screen relative flex items-center">
+                {params.get("embed") !== "true" && (
+                    <div className={[
+                        "absolute top-2 right-2",
+                        "flex gap-1"
+                    ].join(" ")}>
+                        <button
+                            type="button"
+                            className={[
+                                "font-sans cursor-pointer text-sm",
+                                "px-2 py-1 rounded-sm",
+                                "bg-slate-800/10 hover:bg-slate-800/20",
+                            ].join(" ")}
+                            onClick={() => setIsEditting(!isEditting)}
+                        >
+                            {isEditting ? 'Finish ✅' : 'Edit ✍🏽'}
+                        </button>
+                        <button
+                            type="button"
+                            className={[
+                                "font-sans cursor-pointer text-sm",
+                                "px-2 py-1 rounded-sm",
+                                "bg-slate-800/10 hover:bg-slate-800/20",
+                                "disabled:opacity-50 disabled:cursor-not-allowed",
+                            ].join(" ")}
+                            onClick={async (event) => {
+                                const target = event.currentTarget;
+
+                                target.innerText = 'Copied! ✅';
+                                target.disabled = true;
+
+                                setTimeout(() => {
+                                    target.innerText = 'Share 🔗'
+                                    target.disabled = false;
+                                }, 2000);
+
+                                await navigator.clipboard.writeText(location.href);
+                            }}
+                        >
+                            {'Share 🔗'}
+                        </button>
+                    </div>
+                )}
                 <div className="relative w-full">
                     <MessageBubble
                         key={quotes[messageIndex]}
@@ -75,7 +115,7 @@ export default function HomePage() {
                                 })
                             }}
                             onButtonClick={() => handleClick(1)}
-                            value={settings.p1.display}
+                            value={settings['p1.display']}
                         />
                         <PersonContainer className="z-0" size="text-3xl">
                             <span className={[
@@ -88,7 +128,7 @@ export default function HomePage() {
                                 "relative duration-300",
                                 isEditting ? "opacity-20" : "opacity-100",
                             ].join(" ")}>
-                                {settings.connector.display}
+                                {settings['connector.display']}
                             </span>
                         </PersonContainer>
                         <PersonButton
@@ -103,7 +143,7 @@ export default function HomePage() {
                                 })
                             }}
                             onButtonClick={() => handleClick(2)}
-                            value={settings.p2.display}
+                            value={settings['p2.display']}
                         />
                     </div>
                     {/* TODO: embed option */}
@@ -118,7 +158,6 @@ export default function HomePage() {
                                     }
                                 });
                             }}
-                            contentEditable={isEditting}
                             className={[
                                 "p-2 rounded-sm border resize-none",
                                 "w-full text-center mx-auto",
@@ -126,7 +165,7 @@ export default function HomePage() {
                                     ? "bg-white border-slate-400"
                                     : "bg-transparent border-transparent",
                             ].join(" ")}
-                            defaultValue={settings.text}
+                            value={settings.text}
                         />
                     </div>
                     <div className="opacity-75 flex-col place-content-center place-items-center">
@@ -149,46 +188,6 @@ export default function HomePage() {
                     </div>
                 </div>
             </div>
-            {params.get("embed") !== "true" && (
-                <div className={[
-                    "absolute top-2 right-2",
-                    "flex gap-1"
-                ].join(" ")}>
-                    <button
-                        className={[
-                            "font-sans cursor-pointer text-sm",
-                            "px-2 py-1 rounded-sm",
-                            "bg-slate-800/10 hover:bg-slate-800/20",
-                        ].join(" ")}
-                        onClick={() => setIsEditting(!isEditting)}
-                    >
-                        {isEditting ? 'Finish ✅' : 'Edit ✍🏽'}
-                    </button>
-                    <button
-                        className={[
-                            "font-sans cursor-pointer text-sm",
-                            "px-2 py-1 rounded-sm",
-                            "bg-slate-800/10 hover:bg-slate-800/20",
-                            "disabled:opacity-50 disabled:cursor-not-allowed",
-                        ].join(" ")}
-                        onClick={async (event) => {
-                            const target = event.currentTarget;
-
-                            target.innerText = 'Copied! ✅';
-                            target.disabled = true;
-
-                            setTimeout(() => {
-                                target.innerText = 'Share 🔗'
-                                target.disabled = false;
-                            }, 2000);
-
-                            await navigator.clipboard.writeText(location.href);
-                        }}
-                    >
-                        {'Share 🔗'}
-                    </button>
-                </div>
-            )}
         </DefaultLayout>
     );
 }
